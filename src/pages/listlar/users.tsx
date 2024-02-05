@@ -4,8 +4,8 @@ interface UsersProps {}
 
 const Users: FunctionComponent<UsersProps> = () => {
   return (
-    <div style={{ width: '100%', background: 'red' }} className="flex  items-start gap-8 p-4 px-6">
-      <h1>Hello </h1>
+    <div className="flex h-full w-full items-start gap-8 bg-slate-500 p-4 px-6 text-white">
+    <h1>Users </h1>
     </div>
   );
 };

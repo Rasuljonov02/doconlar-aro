@@ -4,7 +4,9 @@ import { Navigate, Route, Routes as Switch } from 'react-router-dom';
 import { Auth, Dashboard } from 'pages';
 import Protected from './protected';
 import { MainContext } from 'main';
-import Users from 'pages/users';
+import Users from 'pages/listlar/users';
+import Companies from 'pages/listlar/Companies';
+import Roles from 'pages/listlar/Roles';
 
 const Routes: React.FC = () => {
   const { user } = React.useContext(MainContext);
@@ -20,7 +22,10 @@ const Routes: React.FC = () => {
 
       <Route path="dashboard" element={<Protected allow={isAuthenticated} to="/auth/login" />}>
         <Route index element={<Dashboard />} />
-        <Route path='users' element={<Users />} />
+        <Route path="users" element={<Users />} />
+        <Route path="companies" element={<Companies />} />
+        <Route path="roles" element={<Roles />} />
+
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Route>
 

@@ -5,18 +5,18 @@ interface NavigetProps {}
 
 const Naviget: FC<NavigetProps> = () => {
   return (
-    <div style={{ width: '200px', background: 'blue', height: '100vh' }}>
+    <div style={{ width: '150px', height: '88vh' }} className=" bg-slate-400 p-6 text-[25px] text-white">
       <div>
-        <Link to="/dashboard">
+        <Link to="/dashboard/home">
           <p>Dashbord</p>
         </Link>
         <Link to="/dashboard/users">
           <p>Users</p>
         </Link>
-        <Link to="/roles">
+        <Link to="/dashboard/roles">
           <p>Roles</p>
         </Link>
-        <Link to="/Companies">
+        <Link to="/dashboard/Companies">
           <p>Companies</p>
         </Link>
       </div>
