@@ -4,6 +4,7 @@ import { Api } from 'modules/auth';
 import { IEntity } from 'modules/auth/types';
 import Routes from 'routes';
 import { session } from 'services';
+import { Navbar } from 'components';
 
 interface IContext {
   user: IEntity.User | null;
@@ -64,6 +65,8 @@ class Main extends Component<{}, { loading: boolean; user: IEntity.User | null }
 
     return (
       <MainContext.Provider value={{ user, login: this.login, logout: this.logout }}>
+      <Navbar />
+
         <Routes />
       </MainContext.Provider>
     );

@@ -1,14 +1,17 @@
 import React from 'react';
 
 import { Navbar } from 'components';
+import Naviget from './navigetPejlar/naviget';
 
 const Dashboard: React.FC = () => {
   return (
     <>
-      <Navbar />
-      <div className="flex  items-start gap-8 p-4 px-6">
-        <div>Hello Dashboard</div>
-        <div>salom</div>
+      <div style={{width:"100%",background:"red"}} className="flex  items-start gap-8 p-4 px-6">
+        <div>
+        </div>
+        <div>
+          wfewfefwfwewfwe
+           </div>
       </div>
     </>
   );
