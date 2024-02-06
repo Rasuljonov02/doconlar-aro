@@ -11,7 +11,7 @@ const Protected: React.FC<ProtectedProps> = ({ allow, to }) => {
   if (allow)
     return (
       <>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="flex gap-4">
           <Naviget />
 
           <Outlet />
