@@ -1,48 +1,30 @@
+import { FC, useState } from 'react';
 import { Button, Input } from 'antd';
 import Companies from 'pages/listlar/Companies';
-import { FC, useState } from 'react';
 import { session } from 'services';
+import { IEdit } from './types';
+import { Edit1 } from 'modules/auth/api';
 
-const app = 'http://137.184.188.134:4000/api';
-
-interface InfoProps {
- 
-}
-
-const Edit: FC<InfoProps> = () => {
-  const [title, setTitle] = useState<string>('');
-  const [location, setLocation] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [number, setNumber] = useState<string>('');
+const Edit: FC = () => {
+  const [formData, setFormData] = useState<IEdit.User>({
+    title: '',
+    location: '',
+    phone: '',
+    number: ''
+  });
 
   const [infobol, setInfobol] = useState<boolean>(false);
 
-  const save = () => {
-    let myHeaders = new Headers();
-    myHeaders.append('x-auth-token', session.get());
-    myHeaders.append('Content-Type', 'application/json');
-   
-    let raw = JSON.stringify({
-      "title": title,
-      "location": location,
-      "phone": phone,
-      "number": number
-    });
-    
-    let requestOptions:any = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-    
-    fetch(`${app}/shops`, requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result)
-        handleEdit();
-    })
-      .catch(error => console.log('error', error));
+  const save = async () => {
+    try {
+          const { data } = await Edit1(formData,session.get());
+  
+      console.log(data);
+  
+       handleEdit();
+    } catch (error) {
+       console.error('Error while saving data:', error);
+    }
   };
 
   const handleEdit = () => {
@@ -54,22 +36,38 @@ const Edit: FC<InfoProps> = () => {
   }
 
   return (
-    <div className="mt-2 flex flex-col gap-3 w-full">
+    <div className="mt-2 flex w-full flex-col items-start gap-3">
       <Button type="primary" onClick={handleEdit}>
         Next
       </Button>
       <div className="mt-4 flex w-full gap-2">
         <div className="flex w-[200px] flex-col gap-2">
           <p>Joy name</p>
-          <Input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+          <Input
+            type="text"
+            value={formData.title}
+            onChange={e => setFormData({ ...formData, title: e.target.value })}
+          />
           <p>location</p>
-          <Input type="text" value={location} onChange={e => setLocation(e.target.value)} />
+          <Input
+            type="text"
+            value={formData.location}
+            onChange={e => setFormData({ ...formData, location: e.target.value })}
+          />
         </div>
         <div className="flex w-[200px] flex-col gap-2">
           <p>phone</p>
-          <Input type="number" value={phone} onChange={e => setPhone(e.target.value)} />
+          <Input
+            type="number"
+            value={formData.phone}
+            onChange={e => setFormData({ ...formData, phone: e.target.value })}
+          />
           <p>docon number</p>
-          <Input type="number" value={number} onChange={e => setNumber(e.target.value)} />
+          <Input
+            type="number"
+            value={formData.number}
+            onChange={e => setFormData({ ...formData, number: e.target.value })}
+          />
         </div>
       </div>
       <Button type="primary" onClick={save}>

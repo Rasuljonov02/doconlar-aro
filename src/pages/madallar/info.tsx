@@ -2,49 +2,32 @@ import { Button, Input } from 'antd';
 import Companies from 'pages/listlar/Companies';
 import { FC, useState } from 'react';
 import { session } from 'services';
-
-const app = 'http://137.184.188.134:4000/api';
+import { IEdit } from './types';
+import { Info1 } from 'modules/auth/api';
 
 interface InfoProps {
   data: any;
 }
 
 const Info: FC<InfoProps> = ({ data }) => {
+  const [formData, setFormData] = useState<IEdit.User>({
+    title: data.title || '',
+    location: data.location || '',
+    phone: data.phone || '',
+    number: data.number || ''
+  });
   const [infobol, setInfobol] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(data.title || '');
-  const [location, setLocation] = useState<string>(data.location || '');
-  const [phone, setPhone] = useState<string>(data.phone || '');
-  const [number, setNumber] = useState<string>(data.number || '');
-  const [id, idset] = useState<any>(data._id || '');
+  const id = data._id;
+  const saveinput = async () => {
+    try {
+      const { data } = await Info1(id, formData, session.get());
 
-  const saveinput = () => {
-    let myHeaders = new Headers();
-    myHeaders.append('x-auth-token', session.get());
-    myHeaders.append('Content-Type', 'application/json');
+      console.log(data);
 
-    var raw = JSON.stringify({
-      title: title,
-      location: location,
-      phone: phone,
-      number: number
-    });
-
-    let requestOptions: any = {
-      method: 'PUT',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    console.log('salom', requestOptions);
-
-    fetch(`${app}/shops/${id}`, requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result);
-        handleEdit()
-      })
-      .catch(error => console.log('error', error));
+      handleEdit();
+    } catch (error) {
+      console.error('Error while saving data:', error);
+    }
   };
 
   const handleEdit = () => {
@@ -63,15 +46,31 @@ const Info: FC<InfoProps> = ({ data }) => {
       <div className="mt-4 flex w-full gap-2">
         <div className="flex w-[200px] flex-col gap-2">
           <p>Joy name</p>
-          <Input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+          <Input
+            type="text"
+            value={formData.title}
+            onChange={e => setFormData({ ...formData, title: e.target.value })}
+          />
           <p>location</p>
-          <Input type="text" value={location} onChange={e => setLocation(e.target.value)} />
+          <Input
+            type="text"
+            value={formData.location}
+            onChange={e => setFormData({ ...formData, location: e.target.value })}
+          />
         </div>
         <div className="flex w-[200px] flex-col gap-2">
           <p>phone</p>
-          <Input type="number" value={phone} onChange={e => setPhone(e.target.value)} />
+          <Input
+            type="number"
+            value={formData.phone}
+            onChange={e => setFormData({ ...formData, phone: e.target.value })}
+          />
           <p>docon number</p>
-          <Input type="number" value={number} onChange={e => setNumber(e.target.value)} />
+          <Input
+            type="number"
+            value={formData.number}
+            onChange={e => setFormData({ ...formData, number: e.target.value })}
+          />
         </div>
       </div>
       <Button type="primary" onClick={saveinput}>
