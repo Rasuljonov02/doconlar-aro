@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React from 'react';
+import { session } from 'services';
 
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWMwMDUyYzNjMDQ2NjVhYTlmNzJjOGIiLCJmaXJzdE5hbWUiOiJhcnNsb25iZWsiLCJsYXN0TmFtZSI6ImFsaW1iYWV2IiwicGhvbmUiOiJhZG1pbiIsImlhdCI6MTcwNzExMDQxNn0.Tkgxyez0ba23JD3uAXCtCnwpN8yOFOAYmtTUC9Vqk7g';
-const baseURL = 'http://137.184.188.134:4000/api';
+const token =session.get();
+ const baseURL = 'http://137.184.188.134:4000/api';
 
 interface Params {
   url: '/shops';

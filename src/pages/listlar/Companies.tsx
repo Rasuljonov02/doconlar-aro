@@ -20,14 +20,13 @@ const Companies: FunctionComponent<UsersProps> = () => {
   const handleDelete = (record: any) => {
     console.log('Delete', record);
   };
-
-  if(infobol){
-    return <Info data={infi}/>
+  // data: infi;
+  if (infobol) {
+    return <Info data={infi} />;
   }
 
   return (
     <div className="container w-full  py-2">
-      
       <div className="flex items-center justify-between rounded-[10px] bg-slate-200 p-2 text-white">
         <div>
           <img className="w-[25px] cursor-pointer" src={plus} alt="" />
@@ -53,7 +52,7 @@ const Companies: FunctionComponent<UsersProps> = () => {
           {
             title: 'Actions',
             render: (i, record) => (
-              <div className='flex items-center gap-2'>
+              <div className="flex items-center gap-2">
                 <Button type="primary" onClick={() => handleEdit(record)}>
                   Edit
                 </Button>

@@ -14,25 +14,24 @@ const Info: FC<InfoProps> = ({ data }) => {
   const [location, setLocation] = useState<string>(data.location || '');
   const [phone, setPhone] = useState<string>(data.phone || '');
   const [number, setNumber] = useState<string>(data.number || '');
-  const [id, idset] = useState<string>(data._id || '');
+  const [id, idset] = useState<any>(data._id || '');
 
   const save = () => {
     let myHeaders = new Headers();
     myHeaders.append('x-auth-token', session.get());
+    myHeaders.append('Content-Type', 'application/json');
 
-    
-
-    const payload = {
+    var raw = JSON.stringify({
       title: title,
       location: location,
       phone: phone,
       number: number
-    };
+    });
 
     let requestOptions: any = {
       method: 'PUT',
       headers: myHeaders,
-      body: JSON.stringify(payload),
+      body: raw,
       redirect: 'follow'
     };
 
@@ -51,7 +50,7 @@ const Info: FC<InfoProps> = ({ data }) => {
   if (infobol) {
     return <Companies />;
   }
- 
+
   return (
     <div className="mt-2 w-full">
       <Button type="primary" onClick={handleEdit}>
