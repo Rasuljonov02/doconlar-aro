@@ -6,44 +6,42 @@ import { session } from 'services';
 const app = 'http://137.184.188.134:4000/api';
 
 interface InfoProps {
-  data: any;
+ 
 }
 
-const Info: FC<InfoProps> = ({ data }) => {
-  const [infobol, setInfobol] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(data.title || '');
-  const [location, setLocation] = useState<string>(data.location || '');
-  const [phone, setPhone] = useState<string>(data.phone || '');
-  const [number, setNumber] = useState<string>(data.number || '');
-  const [id, idset] = useState<any>(data._id || '');
+const Edit: FC<InfoProps> = () => {
+  const [title, setTitle] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [number, setNumber] = useState<string>('');
 
-  const saveinput = () => {
+  const [infobol, setInfobol] = useState<boolean>(false);
+
+  const save = () => {
     let myHeaders = new Headers();
     myHeaders.append('x-auth-token', session.get());
     myHeaders.append('Content-Type', 'application/json');
-
-    var raw = JSON.stringify({
-      title: title,
-      location: location,
-      phone: phone,
-      number: number
+   
+    let raw = JSON.stringify({
+      "title": title,
+      "location": location,
+      "phone": phone,
+      "number": number
     });
-
-    let requestOptions: any = {
-      method: 'PUT',
+    
+    let requestOptions:any = {
+      method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     };
-
-    console.log('salom', requestOptions);
-
-    fetch(`${app}/shops/${id}`, requestOptions)
+    
+    fetch(`${app}/shops`, requestOptions)
       .then(response => response.json())
       .then(result => {
-        console.log(result);
-        handleEdit()
-      })
+        console.log(result)
+        handleEdit();
+    })
       .catch(error => console.log('error', error));
   };
 
@@ -56,7 +54,7 @@ const Info: FC<InfoProps> = ({ data }) => {
   }
 
   return (
-    <div className="mt-2 w-full">
+    <div className="mt-2 flex flex-col gap-3 w-full">
       <Button type="primary" onClick={handleEdit}>
         Next
       </Button>
@@ -74,11 +72,11 @@ const Info: FC<InfoProps> = ({ data }) => {
           <Input type="number" value={number} onChange={e => setNumber(e.target.value)} />
         </div>
       </div>
-      <Button type="primary" onClick={saveinput}>
-        Saveinput
+      <Button type="primary" onClick={save}>
+        Save
       </Button>
     </div>
   );
 };
 
-export default Info;
+export default Edit;
