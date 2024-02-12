@@ -1,6 +1,6 @@
 export const config = {
   api: {
-    baseURL: 'http://137.184.188.134:4000/api',
+    baseURL: 'https://api.dev.jonatma.online/api',
     tokenKEY: 'x-auth-token'
   }
 };

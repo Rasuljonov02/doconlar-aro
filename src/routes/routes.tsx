@@ -1,35 +1,33 @@
 import React from 'react';
 import { Navigate, Route, Routes as Switch } from 'react-router-dom';
 
-import { Auth, Dashboard } from 'pages';
+import { Auth, Dashboard, Shops, Purchases, Payouts } from 'pages';
 import Protected from './protected';
-import { MainContext } from 'main';
-import Users from 'pages/listlar/users';
-import Companies from 'pages/listlar/Companies';
-import Roles from 'pages/listlar/Roles';
+import { AuthContext } from 'modules/auth/context';
+import { Main } from 'layouts';
 
 const Routes: React.FC = () => {
-  const { user } = React.useContext(MainContext);
+  const { user } = React.useContext(AuthContext);
   const isAuthenticated = !!user;
 
   return (
     <Switch>
-      <Route path="auth" element={<Protected allow={!isAuthenticated} to="/dashboard" />}>
+      <Route path="app" element={<Protected Layout={Main} allow={isAuthenticated} to="/auth/login" />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="shops" element={<Shops />} />
+        <Route path="purchases" element={<Purchases />} />
+        <Route path="payouts" element={<Payouts />} />
+
+        <Route index path="*" element={<Navigate to="/app/dashboard" />} />
+      </Route>
+
+      <Route path="auth" element={<Protected allow={!isAuthenticated} to="/app" />}>
         <Route path="login" element={<Auth.Login />} />
         <Route path="register" element={<Auth.Register />} />
         <Route index path="*" element={<Navigate to="/auth/login" />} />
       </Route>
 
-      <Route path="dashboard" element={<Protected allow={isAuthenticated} to="/auth/login" />}>
-        <Route index element={<Dashboard />} />
-        <Route path="users" element={<Users />} />
-        <Route path="companies" element={<Companies />} />
-        <Route path="roles" element={<Roles />} />
-
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Route>
-
-      <Route index path="*" element={<Navigate to="/auth/login" />} />
+      <Route index path="*" element={<Navigate to={isAuthenticated ? '/app/dashboard' : '/auth/login'} />} />
     </Switch>
   );
 };

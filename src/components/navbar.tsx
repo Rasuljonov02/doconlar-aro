@@ -1,20 +1,24 @@
-import { Button } from 'antd';
-import { MainContext } from 'main';
-
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Segmented } from 'antd';
 
-interface NavbarProps {}
+const Navbar: React.FC = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-const Navbar: React.FC<NavbarProps> = props => {
-  const { logout } = React.useContext(MainContext);
-
-  const { user } = React.useContext(MainContext);
   return (
-    <nav className="box-border flex w-full items-center justify-between bg-blue-200 px-6 py-2">
-      <Button href="#home">Docs App</Button>
-      <Button onClick={logout}>Log out</Button>
-
-      <h2 className="!m-0 !p-0 font-bold">{user?.firstName || '--'}</h2>
+    <nav className="box-border flex w-full items-center justify-center  px-6 py-2">
+      <Segmented
+        size="large"
+        value={pathname}
+        onChange={path => navigate(path as string)}
+        options={[
+          { label: 'Dashboard', value: '/app/dashboard' },
+          { label: 'Shops', value: '/app/shops' },
+          { label: 'Purchases', value: '/app/purchases' },
+          { label: 'Payouts', value: '/app/payouts' }
+        ]}
+      />
     </nav>
   );
 };
